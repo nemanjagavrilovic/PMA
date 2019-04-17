@@ -7,6 +7,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -20,7 +22,8 @@ public class NewsInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_info);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         dl = (DrawerLayout)findViewById(R.id.news_info);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
 
@@ -34,10 +37,12 @@ public class NewsInfo extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
+                Intent intent = null;
+
                 switch(id)
                 {
                     case R.id.home:
-                        Intent intent = new Intent(NewsInfo.this, MainActivity.class);
+                        intent = new Intent(NewsInfo.this, MainActivity.class);
                         startActivity(intent);
 //                        NewsInfoFragment newsInfoFragment = new NewsInfoFragment();
 //                        FragmentManager manager = getSupportFragmentManager();
@@ -46,10 +51,12 @@ public class NewsInfo extends AppCompatActivity {
 //                                .commit();
                         return true;
                     case R.id.settings:
-                        Toast.makeText(NewsInfo.this, "Settings",Toast.LENGTH_SHORT).show();
+                        intent = new Intent(NewsInfo.this, Settings.class);
+                        startActivity(intent);
                         return true;
                     case R.id.contact:
-                        Toast.makeText(NewsInfo.this, "Contact",Toast.LENGTH_SHORT).show();
+                        intent = new Intent(NewsInfo.this, MainActivity.class);
+                        startActivity(intent);
                         return true;
                     default:
                         return true;
@@ -65,4 +72,6 @@ public class NewsInfo extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
