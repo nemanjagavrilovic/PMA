@@ -2,9 +2,13 @@
     <string name="app_name">PMA</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+    <string name="SelectDate">Select date</string>
+    <string name="buttonConfirm">Confirm date</string>
+    <string name="buttonCancel">Cancel</string>
 
     <string-array name="emails_array">
         <item>Email 1</item>
         <item>Email 2</item>
     </string-array>
+    <string name="title_activity_maps">Map</string>
 </resources>
