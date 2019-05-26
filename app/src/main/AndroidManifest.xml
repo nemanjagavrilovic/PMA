@@ -37,6 +37,8 @@
         <activity android:name=".NewsInfo" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".CancelCalendarActivity" />
+        <activity android:name=".PhoneCallActivity" />
+        <activity android:name=".PhoneCall" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,5 +47,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
 </manifest>

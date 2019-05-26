@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Contact">
+    tools:context=".PhoneCallActivity">
 
     <include
         layout="@layout/toolbar_main"
@@ -20,21 +20,23 @@
 
         <Button
             android:id="@+id/call_water"
+            android:drawableStart="@android:drawable/ic_menu_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="50"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="50dp"
-            android:text="Button" />
+            android:text="Water"/>
 
         <Button
             android:id="@+id/call_electricity"
+            android:drawableStart="@android:drawable/ic_menu_call"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="50"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="50dp"
-            android:text="Button" />
+            android:text="Electricity" />
     </LinearLayout>
 
     <LinearLayout
@@ -102,11 +104,12 @@
             android:layout_marginLeft="50dp"
             android:layout_weight="50" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="110dp"
+        android:layout_marginBottom="50dp"
         android:weightSum="100">
 
         <TextView
@@ -116,10 +119,10 @@
             android:text="Compose mail:" />
 
         <EditText
-            android:layout_width="200dp"
-            android:layout_height="60dp"
-            android:layout_marginRight="30dp"
+            android:layout_width="201dp"
+            android:layout_height="150dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
             android:inputType="textMultiLine" />
     </LinearLayout>
 </RelativeLayout>
