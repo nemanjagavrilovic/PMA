@@ -21,14 +21,9 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.notification_fragment, container, false);
 
-        Notification notification1 = new Notification("Notification title 1","Notification text 1");
-        Notification notification2 = new Notification("Notification title 2","Notification text 2");
-        Notification notification3 = new Notification("Notification title 3","Notification text 3");
+        DatabaseHelper db = new DatabaseHelper(getActivity());
 
-        ArrayList<Notification> notifications = new ArrayList<>();
-        notifications.add(notification1);
-        notifications.add(notification2);
-        notifications.add(notification3);
+        ArrayList<Notification> notifications = db.getData();
 
         NotificationListAdapter adapter = new NotificationListAdapter(getContext(),R.layout.adapter_view_layout,notifications);
         ListView listView = (ListView) view.findViewById(R.id.listViewNotification);

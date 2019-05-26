@@ -10,6 +10,7 @@ public class Notification {
         this.text = text;
     }
 
+    public Notification(){};
     public String getTitle() {
         return title;
     }
