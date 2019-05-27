@@ -3,6 +3,8 @@ package com.projekat.pma;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,41 +12,71 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.projekat.pma.model.News;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 
 public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.home_fragment, container, false);
+        final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.home_fragment, container, false);
+        RequestQueue queue = Volley.newRequestQueue(this.getContext());
+        String url = "http://192.168.1.8:9001/pma/news/";
 
-        News news1 = new News("Title 1","Text 1");
-        News news2 = new News("Title 2","Text 2");
-        News news3 = new News("Title 3","Text 3");
-        News news4 = new News("Title 4","Text 4");
-        News news5 = new News("Title 5","Text 5");
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
 
-        ArrayList<News> news = new ArrayList<>();
-        news.add(news1);
-        news.add(news2);
-        news.add(news3);
-        news.add(news4);
-        news.add(news5);
+                            ArrayList<News> newsList = new ArrayList<>();
 
-        NewsListAdapter adapter = new NewsListAdapter(getContext(),R.layout.adapter_view_layout,news);
-        ListView listView = (ListView) view.findViewById(R.id.listView);
-        System.out.println(listView);
-        listView.setAdapter(adapter);
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject news = response.getJSONObject(i);
+                                News newsItem = new News(news.getString("title"),news.getString("content"));
+                                newsItem.setImage(news.getString("image"));
+                                newsItem.setId(news.getLong("id"));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                newsList.add(newsItem);
+                            }
+                            RecyclerView carRecyclerView = (RecyclerView)view.findViewById(R.id.card_view_recycler_list);
+                            // Create the grid layout manager with 2 columns.
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
+                            // Set layout manager.
+                            carRecyclerView.setLayoutManager(gridLayoutManager);
+
+                            // Create car recycler view data adapter with car item list.
+                            CardViewAdapter carDataAdapter = new CardViewAdapter(newsList);
+                            // Set data adapter.
+                            carRecyclerView.setAdapter(carDataAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), NewsInfo.class);
-                startActivity(intent);
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
             }
         });
+
+        queue.add(request);
+
         return  view;
     }
+
 }
