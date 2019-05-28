@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewsInfo extends AppCompatActivity {
@@ -26,6 +27,11 @@ public class NewsInfo extends AppCompatActivity {
         setSupportActionBar(toolbar);
         dl = (DrawerLayout)findViewById(R.id.news_info);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
+        TextView text = findViewById(R.id.news_info_text);
+        TextView title = findViewById(R.id.news_info_title);
+
+        text.setText(getIntent().getStringExtra("text"));
+        title.setText(getIntent().getStringExtra("title"));
 
         dl.addDrawerListener(t);
         t.syncState();
@@ -44,11 +50,6 @@ public class NewsInfo extends AppCompatActivity {
                     case R.id.home:
                         intent = new Intent(NewsInfo.this, MainActivity.class);
                         startActivity(intent);
-//                        NewsInfoFragment newsInfoFragment = new NewsInfoFragment();
-//                        FragmentManager manager = getSupportFragmentManager();
-//                        manager.beginTransaction()
-//                                .replace(R.id.main,newsInfoFragment)
-//                                .commit();
                         return true;
                     case R.id.settings:
                         intent = new Intent(NewsInfo.this, Settings.class);

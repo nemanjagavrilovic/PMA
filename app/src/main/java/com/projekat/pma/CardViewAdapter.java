@@ -1,8 +1,9 @@
 package com.projekat.pma;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -10,17 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.projekat.pma.model.News;
-
 import java.util.List;
 
 public class CardViewAdapter extends RecyclerView.Adapter<NewsViewItemHolder> {
 
     private List<News> newsItemList;
+    private Context mcon;
 
-    public CardViewAdapter(List<News> newsItemList) {
+    public CardViewAdapter(List<News> newsItemList, Context context) {
         this.newsItemList = newsItemList;
+        this.mcon = context;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<NewsViewItemHolder> {
     public void onBindViewHolder(NewsViewItemHolder holder,final int position) {
         if(newsItemList != null) {
             // Get car item dto in list.
-            News newsItem = newsItemList.get(position);
+            final News newsItem = newsItemList.get(position);
 
             if(newsItem != null) {
                 // Set car item title.
@@ -65,7 +66,10 @@ public class CardViewAdapter extends RecyclerView.Adapter<NewsViewItemHolder> {
             holder.getNewsImageView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("You clicked " +  newsItemList.get(position).getId());
+                    Intent intent = new Intent(mcon,NewsInfo.class);
+                    intent.putExtra("title", newsItem.getTitle());
+                    intent.putExtra("text",newsItem.getText());
+                    mcon.startActivity(intent);
                 }
             });
         }

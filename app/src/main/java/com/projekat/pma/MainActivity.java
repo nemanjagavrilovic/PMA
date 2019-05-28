@@ -50,12 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.home:
                         intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtra("newsType",3);
                         startActivity(intent);
-//                        NewsInfoFragment newsInfoFragment = new NewsInfoFragment();
-//                        FragmentManager manager = getSupportFragmentManager();
-//                        manager.beginTransaction()
-//                                .replace(R.id.main,newsInfoFragment)
-//                                .commit();
                         return true;
                     case R.id.settings:
                         intent = new Intent(MainActivity.this, Settings.class);
@@ -64,7 +60,21 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.contact:
                         intent = new Intent(MainActivity.this, Contact.class);
                         startActivity(intent);
-//
+                        return true;
+                    case R.id.eletricity_news:
+                        intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtra("newsType",2);
+                        startActivity(intent);
+                        return true;
+                    case R.id.road_news:
+                        intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtra("newsType",0);
+                        startActivity(intent);
+                        return true;
+                    case R.id.water_news:
+                        intent = new Intent(MainActivity.this, MainActivity.class);
+                        intent.putExtra("newsType",1);
+                        startActivity(intent);
                         return true;
                     default:
                         return true;
@@ -100,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tabSelected)
             {
-                System.out.println(tabSelected.getPosition());
-                viewPager.setCurrentItem(tabSelected.getPosition());
+                       viewPager.setCurrentItem(tabSelected.getPosition());
             }
 
             @Override

@@ -30,11 +30,21 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
+    private int newsType;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.home_fragment, container, false);
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
-        String url = "http://192.168.1.8:9001/pma/news/";
+        String url = "";
+        int newsType = getActivity().getIntent().getIntExtra("newsType",3);
+
+        if(newsType == 3 ) {
+             url = "http://192.168.1.8:9001/pma/news/";
+        } else  {
+            url = "http://192.168.1.8:9001/pma/news/restrictionType/"+newsType;
+        }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -59,7 +69,7 @@ public class HomeFragment extends Fragment {
                             carRecyclerView.setLayoutManager(gridLayoutManager);
 
                             // Create car recycler view data adapter with car item list.
-                            CardViewAdapter carDataAdapter = new CardViewAdapter(newsList);
+                            CardViewAdapter carDataAdapter = new CardViewAdapter(newsList, getContext());
                             // Set data adapter.
                             carRecyclerView.setAdapter(carDataAdapter);
 
