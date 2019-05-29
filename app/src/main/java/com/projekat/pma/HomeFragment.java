@@ -20,18 +20,20 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.projekat.pma.model.News;
+import com.projekat.pma.model.Restriction;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
-
-    private int newsType;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class HomeFragment extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         String url = "";
         int newsType = getActivity().getIntent().getIntExtra("newsType",3);
+        final String date = getActivity().getIntent().getStringExtra("date");
 
         if(newsType == 3 ) {
              url = "http://192.168.1.8:9001/pma/news/";
@@ -59,8 +62,10 @@ public class HomeFragment extends Fragment {
                                 News newsItem = new News(news.getString("title"),news.getString("content"));
                                 newsItem.setImage(news.getString("image"));
                                 newsItem.setId(news.getLong("id"));
-
-                                newsList.add(newsItem);
+                                newsItem.setRestriction(getRestrictions(news.getJSONArray("restriction"),date));
+                                if(newsItem.getRestriction().size() != 0 ) {
+                                    newsList.add(newsItem);
+                                }
                             }
                             RecyclerView carRecyclerView = (RecyclerView)view.findViewById(R.id.card_view_recycler_list);
                             // Create the grid layout manager with 2 columns.
@@ -87,6 +92,50 @@ public class HomeFragment extends Fragment {
         queue.add(request);
 
         return  view;
+    }
+
+
+    public List<Restriction> getRestrictions(JSONArray array, String  date) {
+        ArrayList<Restriction> restrictionsList = new ArrayList<>();
+        try {
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject restriction = array.getJSONObject(i);
+                Restriction restrictionItem = new Restriction();
+                restrictionItem.setId(restriction.getLong("id"));
+                restrictionItem.setLat(restriction.getDouble("lat"));
+                restrictionItem.setLon(restriction.getDouble("lon"));
+                restrictionItem.setFromDate(convertDate(restriction.getString("from")));
+                restrictionItem.setToDate(convertDate(restriction.getString("to")));
+
+                if(date != null && !date.isEmpty()) {
+                    Date selectedDate = convertDate(date);
+
+                    if (selectedDate.after(restrictionItem.getFromDate()) && selectedDate.before(restrictionItem.getToDate())) {
+
+                        restrictionsList.add(restrictionItem);
+                    }
+                } else {
+                    restrictionsList.add(restrictionItem);
+                }
+            }
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return restrictionsList;
+    }
+
+    private Date convertDate(String stringDate) {
+
+        if(stringDate==null) return null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+
+        try {
+            date = dateFormat.parse(stringDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
 }

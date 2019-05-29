@@ -42,7 +42,18 @@ public class Contact extends AppCompatActivity {
             }
         });
         Button buttonWaterCall = findViewById(R.id.call_water);
+        Button buttonEletricityCall  = findViewById(R.id.call_electricity);
+
         buttonWaterCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "+381655236602"));
+                startActivity(intent);
+            }
+        });
+
+        buttonEletricityCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

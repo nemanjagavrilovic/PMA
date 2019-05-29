@@ -69,6 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<NewsViewItemHolder> {
                     Intent intent = new Intent(mcon,NewsInfo.class);
                     intent.putExtra("title", newsItem.getTitle());
                     intent.putExtra("text",newsItem.getText());
+                    intent.putExtra("image",newsItem.getImage());
                     mcon.startActivity(intent);
                 }
             });

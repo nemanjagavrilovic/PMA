@@ -1,6 +1,8 @@
 package com.projekat.pma;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -8,8 +10,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,9 +33,14 @@ public class NewsInfo extends AppCompatActivity {
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
         TextView text = findViewById(R.id.news_info_text);
         TextView title = findViewById(R.id.news_info_title);
+        ImageView image = findViewById(R.id.news_info_image);
 
+        byte[] encodeByte = Base64.decode(getIntent().getStringExtra("image"), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+        image.setImageBitmap(bitmap);
         text.setText(getIntent().getStringExtra("text"));
         title.setText(getIntent().getStringExtra("title"));
+
 
         dl.addDrawerListener(t);
         t.syncState();
