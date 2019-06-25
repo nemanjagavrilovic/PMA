@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
 
     <include
         layout="@layout/toolbar_main"
@@ -26,9 +25,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?actionBarSize"
                 app:tabGravity="fill"
-                app:tabIndicatorColor="@android:color/white"
                 app:tabIndicatorHeight="4dp"
-                app:tabBackground="@color/design_default_color_primary"
                 app:tabMode="fixed">
             </android.support.design.widget.TabLayout>
         </android.support.design.widget.AppBarLayout>
@@ -50,8 +47,6 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/navigation_menu">
-
     </android.support.design.widget.NavigationView>
-
 
 </android.support.v4.widget.DrawerLayout>

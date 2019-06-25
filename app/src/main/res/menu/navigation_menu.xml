@@ -6,21 +6,27 @@
         android:title="Home"/>
     <item android:id="@+id/eletricity_news"
         android:icon="@drawable/ic_power_black_24dp"
-        android:title="Eletricity news"/>
+        android:title="Electricity news"
+        android:textColor="@color/colorBlackDark"/>
 
     <item android:id="@+id/road_news"
         android:icon="@drawable/ic_directions_black_24dp"
-        android:title="Road news"/>
+        android:title="Road news"
+        android:textColor="@color/colorBlackDark"/>
 
     <item android:id="@+id/water_news"
         android:icon="@drawable/ic_invert_colors_black_24dp"
-        android:title="Water news"/>
+        android:title="Water news"
+        android:textColor="@color/colorBlackDark"/>
 
     <item android:id="@+id/settings"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings"/>
+        android:title="Settings"
+        android:textColor="@color/colorBlackDark"/>
+
     <item android:id="@+id/contact"
         android:icon="@drawable/ic_contact_mail_black_24dp"
-        android:title="Contact"/>
+        android:title="Contact"
+        android:textColor="@color/colorBlackDark"/>
 
 </menu>

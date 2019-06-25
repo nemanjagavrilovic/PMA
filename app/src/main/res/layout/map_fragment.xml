@@ -13,7 +13,8 @@
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="40dp"
         android:onClick="selectDateClick"
-        android:text="@string/SelectDate" />
+        android:text="@string/SelectDate"
+        android:textColor="@color/colorWhite"/>
 
     <com.google.android.gms.maps.MapView xmlns:map="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mapView"

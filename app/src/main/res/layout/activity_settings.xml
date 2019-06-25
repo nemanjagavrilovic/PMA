@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="50"
-            android:text="Location:" />
+            android:text="Location:"
+            android:textColor="@color/colorBlackDark"/>
         <android.support.v7.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +32,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="50dp"
             android:checked="true"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="50"
-            android:text="Location radius:" />
+            android:text="Location radius:"
+            android:textColor="@color/colorBlackDark"/>
         <SeekBar
             android:id="@+id/simpleSeekBar"
             android:layout_width="200dp"
@@ -53,8 +54,8 @@
             android:layout_weight="50"
             android:layout_marginRight="35dp"
             android:layout_marginLeft="40dp"/>
-
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,11 +68,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_weight="35"
-            android:text="News layout:" />
-
+            android:text="News layout:"
+            android:textColor="@color/colorBlackDark"/>
 
         <RadioGroup
-            android:id="@+id/radioLayout"
+            android:id="@+id/radioNewsLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="60"
@@ -82,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 android:text="Grid"
+                android:textColor="@color/colorBlackDark"
                 android:checked="true" />
             <RadioButton
                 android:id="@+id/radioList"
@@ -89,6 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="78dp"
                 android:text="List"
+                android:textColor="@color/colorBlackDark"
                 android:checked="true" />
         </RadioGroup>
 
@@ -100,35 +103,41 @@
         android:layout_marginBottom="230dp"
         android:weightSum="100">
 
-        <TextView
+        <!--<TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:layout_weight="67.1"
+            android:text="Theme:"
+            android:textColor="@color/colorBlackDark"/>-->
+
+        <Switch
+            android:id="@+id/toggleTheme"
+            android:text="Theme:"
+            android:textColor="@color/colorBlackDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_weight="50"
-            android:text="Theme:" />
-
-        <RadioGroup
-            android:id="@+id/radioTheme"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="60"
+            android:layout_weight="80"
             android:orientation="horizontal">
-            <RadioButton
-                android:id="@+id/radioDark"
+            <!--<RadioButton
+                android:id="@+id/radioBlue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="Dark"
+                android:text="Blue"
+                android:textColor="@color/colorBlackDark"
                 android:checked="true" />
             <RadioButton
-                android:id="@+id/radioLight"
+                android:id="@+id/radioGreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
-                android:text="Light"
-                android:checked="true" />
-        </RadioGroup>
+                android:text="Green"
+                android:textColor="@color/colorBlackDark"/>-->
+        </Switch>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -139,23 +148,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="33.3"
-            android:text="Notification:" />
+            android:layout_marginLeft="15dp"
+            android:layout_weight="23.3"
+            android:text="Notification:"
+            android:textColor="@color/colorBlackDark"/>
+
         <CheckBox
+            android:id="@+id/checkBoxSound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             android:layout_marginLeft="50dp"
            android:layout_weight="33.3"
-            android:text="Sound"/>
+            android:text="Sound"
+            android:textColor="@color/colorBlackDark"/>
         <CheckBox
+            android:id="@+id/checkBoxVibration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:layout_weight="33.3"
             android:layout_marginLeft="50dp"
-            android:text="Vibration"/>
-
+            android:text="Vibration"
+            android:textColor="@color/colorBlackDark"/>
     </LinearLayout>
+
 </RelativeLayout>
