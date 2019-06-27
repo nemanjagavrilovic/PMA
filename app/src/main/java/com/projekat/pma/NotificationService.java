@@ -206,7 +206,7 @@ public class NotificationService extends JobService {
 
         double distance = locationA.distanceTo(locationB);
         System.out.println("DISTANCAAAA" + distance);
-        return distance;
+        return distance/2;
     }
 
 

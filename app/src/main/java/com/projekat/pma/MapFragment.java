@@ -141,7 +141,7 @@ public class MapFragment extends Fragment {
         locationB.setLongitude(y2);
 
         double distance = locationA.distanceTo(locationB);
-        return distance;
+        return distance/2;
     }
 
     private void getData() {

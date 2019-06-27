@@ -10,10 +10,7 @@
     </style>
 
     <!-- App theme without action bar -->
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+
 
     <style name="AppTheme.GREEN" parent="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorGreen</item>
@@ -38,5 +35,8 @@
         <item name="android:colorButtonNormal">@color/colorRed</item>
         <item name="android:windowBackground">@color/colorRedBackground</item>
     </style>
-
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
