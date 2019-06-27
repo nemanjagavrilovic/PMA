@@ -4,11 +4,15 @@ public class Notification {
 
     String title;
     String text;
+    Long identificator;
+
 
     public Notification(String title, String text) {
         this.title = title;
         this.text = text;
     }
+
+
 
     public Notification(){};
     public String getTitle() {
@@ -27,4 +31,11 @@ public class Notification {
         this.text = text;
     }
 
+    public Long getIdentificator() {
+        return identificator;
+    }
+
+    public void setIdentificator(Long identificator) {
+        this.identificator = identificator;
+    }
 }

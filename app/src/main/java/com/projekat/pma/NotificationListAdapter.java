@@ -36,7 +36,7 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         TextView tvText = (TextView) convertView.findViewById(R.id.textView2);
 
         tvTitle.setText(title);
-        tvText.setText(text);
+        tvText.setText(text.substring(0,title.length()*90/100)+"...");
 
         return convertView;
     }

@@ -16,23 +16,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String COL1 = "title";
     private static final String COL2 = "text";
+    private static final String COL3 = "identificator";
 
 
     public DatabaseHelper(Context context) {
-        super(context, TABLE_NAME, null, 1);
+        super(context, TABLE_NAME, null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable ="CREATE TABLE "+ TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COL1 + " Text,"+ COL2+"  TEXT)";
+                COL1 + " Text,"+ COL2+"  TEXT,"+ COL3+"  TEXT )";
         db.execSQL(createTable);
 
         ContentValues values = new ContentValues();
-        values.put(COL1, "Notification1 title");
-        values.put(COL2, "Notification1 text");
-
-        long result = db.insert(TABLE_NAME, null, values);
     }
 
     @Override
@@ -52,19 +49,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Notification notification = new Notification();
                 notification.setTitle(cursor.getString(1));
                 notification.setText(cursor.getString(2));
+                notification.setIdentificator(cursor.getLong(3));
                 notificationList.add(notification);
-                cursor.close();
-                db.close();
             }
         }
+        cursor.close();
+        db.close();
         return  notificationList;
+    }
+
+
+    public Notification getNotificationByIdentificator(Long identifcator){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE identificator=" + identifcator;
+        Cursor cursor = db.rawQuery(query, null);
+
+        Notification notification = new Notification();
+        if ( cursor.getCount() > 0 ) {
+            while (cursor.moveToNext()) {
+
+                notification.setTitle(cursor.getString(1));
+                notification.setText(cursor.getString(2));
+                notification.setIdentificator(cursor.getLong(3));
+            }
+        }
+        cursor.close();
+        db.close();
+
+        return notification;
+
     }
     public boolean addData(Notification item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COL1, item.getTitle());
         values.put(COL2, item.getText());
-
+        values.put(COL3, item.getIdentificator());
         long result = db.insert(TABLE_NAME, null, values);
 
         if ( result == -1 ) {

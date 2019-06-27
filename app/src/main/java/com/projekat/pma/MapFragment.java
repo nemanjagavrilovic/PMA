@@ -2,6 +2,8 @@ package com.projekat.pma;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,8 +27,11 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.projekat.pma.model.News;
 import com.projekat.pma.model.Restriction;
 
@@ -38,6 +44,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment {
@@ -73,24 +80,68 @@ public class MapFragment extends Fragment {
         return this.inflatedView;
     }
     public void setNewsLocations(final List<News> newsList) {
+
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                for (News news:newsList) {
+               for (News news:newsList) {
                     for(Restriction restriction : news.getRestriction()) {
-                        LatLng location = new LatLng(restriction.getLat(), restriction.getLon());
-                        googleMap.addMarker(new MarkerOptions().position(location).title(news.getTitle()).snippet(news.getText()));
 
-                        // For zooming automatically to the location of the marker
-                        CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(14).build();
+                        double centerLatitude = calculate(restriction.getLatFrom(),restriction.getLatTo());
+                        double centerLongitude = calculate (restriction.getLonFrom(),restriction.getLonTo());
+                        LatLng center = new LatLng(centerLatitude,centerLongitude);
+                        googleMap.addCircle(new CircleOptions()
+                                .center(center)
+                                .radius((calculateDistance(restriction.getLatFrom(),restriction.getLonFrom(),restriction.getLatTo(),restriction.getLonTo()))/2)
+                                .fillColor(0x44ff0000)
+                                .strokeColor(0xffff0000)
+                                .strokeWidth(5));
+                        googleMap.addMarker(new MarkerOptions().position(center).title(news.getTitle()).snippet(news.getText()));
+
+                         //For zooming automatically to the location of the marker
+                        CameraPosition cameraPosition = new CameraPosition.Builder().target(center).zoom(14).build();
                         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        /*RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                        String url ="https://maps.googleapis.com/maps/api/directions/json?origin=45.248996,19.849229&destination=45.258996,19.839229&key=AIzaSyA1A_yHNBiCoP-8U73yc-S6FPErRFG0A4Y";
+                        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        List<List<HashMap<String, String>>> routes = new ArrayList<>();
+                                        routes = parser.parse(response);
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                error.printStackTrace();
+                            }
+                        });*/
+
+                        //queue.add(request);
                     }
                 }
 
             }
         });
+    }
+
+    private double calculate(double latFrom, double latTo) {
+        return (latFrom+latTo)/2;
+    }
+
+    public double calculateDistance(double x1, double y1, double x2, double y2) {
+        Location locationA = new Location("point A");
+        locationA.setLatitude(x1);
+        locationA.setLongitude(y1);
+
+        Location locationB = new Location("point B");
+        locationB.setLatitude(x2);
+        locationB.setLongitude(y2);
+
+        double distance = locationA.distanceTo(locationB);
+        return distance;
     }
 
     private void getData() {
@@ -100,9 +151,9 @@ public class MapFragment extends Fragment {
         final String date = getActivity().getIntent().getStringExtra("date");
 
         if(newsType == 3) {
-            url = "http://192.168.1.8:9001/pma/news/";
+            url = "http://192.168.1.10:9001/pma/news/";
         } else {
-            url = "http://192.168.1.8:9001/pma/news/restrictionType/"+newsType;
+            url = "http://192.168.1.10:9001/pma/news/restrictionType/"+newsType;
         }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -143,8 +194,10 @@ public class MapFragment extends Fragment {
                 JSONObject restriction = array.getJSONObject(i);
                 Restriction restrictionItem = new Restriction();
                 restrictionItem.setId(restriction.getLong("id"));
-                restrictionItem.setLat(restriction.getDouble("lat"));
-                restrictionItem.setLon(restriction.getDouble("lon"));
+                restrictionItem.setLatFrom(restriction.getDouble("latFrom"));
+                restrictionItem.setLonFrom(restriction.getDouble("lonFrom"));
+                restrictionItem.setLatTo(restriction.getDouble("latTo"));
+                restrictionItem.setLonTo(restriction.getDouble("lonTo"));
                 restrictionItem.setFromDate(convertDate(restriction.getString("from")));
                 restrictionItem.setToDate(convertDate(restriction.getString("to")));
 

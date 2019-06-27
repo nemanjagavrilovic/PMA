@@ -17,6 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class NewsInfo extends AppCompatActivity {
 
     private DrawerLayout dl;
@@ -27,27 +37,56 @@ public class NewsInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_info);
+        TextView text = findViewById(R.id.news_info_text);
+        TextView title = findViewById(R.id.news_info_title);
+        ImageView image = findViewById(R.id.news_info_image);
+        Long identificator = getIntent().getLongExtra("identificator",0);
+        if(identificator != 0) {
+
+            String url = "http://192.168.1.10:9001/pma/news/findByIdentificator/"+identificator;
+
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                ImageView image = findViewById(R.id.news_info_image);
+                                byte[] encodeByte = Base64.decode(response.getString("image"), Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+                                image.setImageBitmap(bitmap);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+
+            queue.add(request);
+        } else {
+            byte[] encodeByte = Base64.decode(getIntent().getStringExtra("image"), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            image.setImageBitmap(bitmap);
+        }
+        text.setText(getIntent().getStringExtra("text"));
+        title.setText(getIntent().getStringExtra("title"));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         dl = (DrawerLayout)findViewById(R.id.news_info);
         t = new ActionBarDrawerToggle(this, dl,R.string.Open, R.string.Close);
-        TextView text = findViewById(R.id.news_info_text);
-        TextView title = findViewById(R.id.news_info_title);
-        ImageView image = findViewById(R.id.news_info_image);
-
-        byte[] encodeByte = Base64.decode(getIntent().getStringExtra("image"), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-        image.setImageBitmap(bitmap);
-        text.setText(getIntent().getStringExtra("text"));
-        title.setText(getIntent().getStringExtra("title"));
-
-
         dl.addDrawerListener(t);
         t.syncState();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        nv = (NavigationView)findViewById(R.id.nv);
+        nv = (NavigationView)findViewById(R.id.news_info_nav);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

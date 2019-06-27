@@ -1,8 +1,11 @@
 package com.projekat.pma;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,18 +38,17 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.home_fragment, container, false);
+    public void update(final SwipeRefreshLayout view) {
+
         RequestQueue queue = Volley.newRequestQueue(this.getContext());
         String url = "";
         int newsType = getActivity().getIntent().getIntExtra("newsType",3);
         final String date = getActivity().getIntent().getStringExtra("date");
 
         if(newsType == 3 ) {
-             url = "http://192.168.1.8:9001/pma/news/";
+            url = "http://192.168.1.10:9001/pma/news/";
         } else  {
-            url = "http://192.168.1.8:9001/pma/news/restrictionType/"+newsType;
+            url = "http://192.168.1.10:9001/pma/news/restrictionType/"+newsType;
         }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
@@ -69,7 +71,15 @@ public class HomeFragment extends Fragment {
                             }
                             RecyclerView carRecyclerView = (RecyclerView)view.findViewById(R.id.card_view_recycler_list);
                             // Create the grid layout manager with 2 columns.
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), 2);
+                            int layout = 0;
+                            SharedPreferences pref = getActivity().getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+                            System.out.println("layout" + pref.getString("layout","NULL"));
+                            if(pref.getString("layout","list").equals("grid")) {
+                                layout = 2;
+                            } else {
+                                layout = 1;
+                            }
+                            GridLayoutManager gridLayoutManager = new GridLayoutManager(view.getContext(), layout);
                             // Set layout manager.
                             carRecyclerView.setLayoutManager(gridLayoutManager);
 
@@ -91,6 +101,26 @@ public class HomeFragment extends Fragment {
 
         queue.add(request);
 
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        final SwipeRefreshLayout view = (SwipeRefreshLayout) inflater.inflate(R.layout.home_fragment, container, false);
+        view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                view.setRefreshing(true);
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setRefreshing(false);
+                        update(view);
+                    }
+                },3000);
+            }
+        });
+
+        update(view);
         return  view;
     }
 
@@ -102,8 +132,10 @@ public class HomeFragment extends Fragment {
                 JSONObject restriction = array.getJSONObject(i);
                 Restriction restrictionItem = new Restriction();
                 restrictionItem.setId(restriction.getLong("id"));
-                restrictionItem.setLat(restriction.getDouble("lat"));
-                restrictionItem.setLon(restriction.getDouble("lon"));
+                restrictionItem.setLatFrom(restriction.getDouble("latFrom"));
+                restrictionItem.setLonFrom(restriction.getDouble("lonFrom"));
+                restrictionItem.setLatTo(restriction.getDouble("latTo"));
+                restrictionItem.setLonTo(restriction.getDouble("lonTo"));
                 restrictionItem.setFromDate(convertDate(restriction.getString("from")));
                 restrictionItem.setToDate(convertDate(restriction.getString("to")));
 
@@ -138,4 +170,9 @@ public class HomeFragment extends Fragment {
         return date;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
 }

@@ -10,19 +10,26 @@ public class Restriction {
 
     private Date toDate;
 
-    private double lat;
+    private double latFrom;
 
-    private double lon;
+    private double lonFrom;
+
+    private double latTo;
+
+    private double lonTo;
+
 
     public Restriction() {
     }
 
-    public Restriction(Long id, Date fromDate, Date toDate, double lat, double lon) {
+    public Restriction(Long id, Date fromDate, Date toDate, double latFrom, double lonFrom,double latTo, double lonTo) {
         this.id = id;
         this.fromDate = fromDate;
         this.toDate = toDate;
-        this.lat = lat;
-        this.lon = lon;
+        this.latFrom = latFrom;
+        this.lonFrom = lonFrom;
+        this.latTo = latTo;
+        this.lonTo = lonTo;
     }
 
     public Long getId() {
@@ -49,20 +56,37 @@ public class Restriction {
         this.toDate = toDate;
     }
 
-    public double getLat() {
-        return lat;
+
+    public double getLatFrom() {
+        return latFrom;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public double getLonFrom() {
+        return lonFrom;
     }
 
-    public double getLon() {
-        return lon;
+    public void setLatFrom(double latFrom) {
+        this.latFrom = latFrom;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLonFrom(double lonFrom) {
+        this.lonFrom = lonFrom;
+    }
+
+    public double getLatTo() {
+        return latTo;
+    }
+
+    public double getLonTo() {
+        return lonTo;
+    }
+
+    public void setLatTo(double latTo) {
+        this.latTo = latTo;
+    }
+
+    public void setLonTo(double lonTo) {
+        this.lonTo = lonTo;
     }
 }
 
