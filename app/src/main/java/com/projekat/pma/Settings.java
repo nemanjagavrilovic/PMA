@@ -126,6 +126,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        simpleSeekBar.setProgress(pref.getInt("seekBarValue",50));
         simpleSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -133,6 +134,7 @@ public class Settings extends AppCompatActivity {
                 SeekBar simpleSeekBar = (SeekBar) findViewById(R.id.simpleSeekBar);
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
                 SharedPreferences.Editor editor = pref.edit();
+                simpleSeekBar.setProgress(progress);
                 int seekBarValue= simpleSeekBar.getProgress();
                 editor.putInt("seekBarValue",seekBarValue);
                 editor.commit();
