@@ -35,6 +35,17 @@
         <item name="android:colorButtonNormal">@color/colorRed</item>
         <item name="android:windowBackground">@color/colorRedBackground</item>
     </style>
+
+    <style name="AppTheme.DARK" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorDarkDark</item>
+        <item name="colorPrimaryDark">@color/colorBlackDark</item>
+        <item name="colorAccent">@color/colorDarkAccent</item>
+        <item name="android:colorButtonNormal">@color/colorDarkButton</item>
+        <item name="android:windowBackground">@color/colorDarkBackground</item>
+        <item name="android:textColor">@color/colorBlackDark</item>
+
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

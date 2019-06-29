@@ -1,6 +1,7 @@
 package com.projekat.pma;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -35,6 +36,11 @@ public class NewsInfo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+
+        setTheme(pref.getInt("theme",R.style.AppTheme_GREEN));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_info);
         TextView text = findViewById(R.id.news_info_text);
@@ -43,7 +49,7 @@ public class NewsInfo extends AppCompatActivity {
         Long identificator = getIntent().getLongExtra("identificator",0);
         if(identificator != 0) {
 
-            String url = "http://192.168.1.10:9001/pma/news/findByIdentificator/"+identificator;
+            String url = "http://192.168.43.30:9001/pma/news/findByIdentificator/"+identificator;
 
             RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,

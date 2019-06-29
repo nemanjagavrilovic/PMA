@@ -29,9 +29,17 @@ public class Settings extends AppCompatActivity {
     private RadioGroup radioNewsLayout;
     private RadioButton radioGrid;
     private RadioButton radioList;
+    private RadioGroup radioThemeLayout;
+    private RadioButton radioDark;
+    private RadioButton radioLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+
+        setTheme(pref.getInt("theme",R.style.AppTheme_GREEN));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -40,7 +48,6 @@ public class Settings extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
         final SharedPreferences.Editor editor = pref.edit();
 
         radioNewsLayout=findViewById(R.id.radioLayout);
@@ -75,7 +82,43 @@ public class Settings extends AppCompatActivity {
         CheckBox vibrationCheckBox = (CheckBox) findViewById(R.id.vibration);
         simpleSeekBar = (SeekBar) findViewById(R.id.simpleSeekBar);
 
+        radioDark = (RadioButton) findViewById(R.id.radioDark);
+        radioLight = (RadioButton) findViewById(R.id.radioLight);
 
+        if(pref.getInt("theme",0) == R.style.AppTheme_RED) {
+            radioDark.setChecked(true);
+        }
+
+
+        radioDark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+                SharedPreferences.Editor editor = pref.edit();
+
+                if(isChecked) {
+                    editor.putInt("theme",R.style.AppTheme_RED);
+                    editor.commit();
+                }
+            }
+        });
+
+        if(pref.getInt("theme",0) == R.style.AppTheme_GREEN) {
+            radioLight.setChecked(true);
+        }
+        radioLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+                SharedPreferences.Editor editor = pref.edit();
+
+                if(isChecked) {
+                    editor.putInt("theme",R.style.AppTheme_GREEN);
+                    editor.commit();
+
+                }
+            }
+        });
        soundCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

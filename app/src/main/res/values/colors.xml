@@ -21,5 +21,11 @@
     <color name="colorRedBackground">#ffebee</color>
 
     <color name="colorWhite">#fafafa</color>
-    <color name="colorBlackDark">#212121</color>
+
+    <color name="colorBlackDark">#fafafa</color>
+    <color name="colorDarkDark">#17191c</color>
+    <color name="colorDarkAccent">#2e333b</color>
+    <color name="colorDarkBackground">#34373b</color>
+    <color name="colorDarkButton">#4d5054</color>
+
 </resources>

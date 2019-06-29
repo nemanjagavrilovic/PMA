@@ -1,5 +1,6 @@
 package com.projekat.pma;
 
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -16,6 +17,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+
+        setTheme(pref.getInt("theme",R.style.AppTheme_GREEN));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_fragment);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

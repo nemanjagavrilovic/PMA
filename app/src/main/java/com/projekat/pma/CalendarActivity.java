@@ -1,6 +1,7 @@
 package com.projekat.pma;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.icu.util.GregorianCalendar;
 import android.os.Bundle;
@@ -17,6 +18,10 @@ public class CalendarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+
+        setTheme(pref.getInt("theme",R.style.AppTheme_GREEN));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         final CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -25,6 +30,7 @@ public class CalendarActivity extends AppCompatActivity {
         cancelDateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 onBackPressed();
+                finish();
             }
         });
 
@@ -42,6 +48,7 @@ public class CalendarActivity extends AppCompatActivity {
                 Intent intent = new Intent(CalendarActivity.this, MainActivity.class);
                 intent.putExtra("date",currentDate);
                 startActivity(intent);
+                finish();
             }
         });
     }

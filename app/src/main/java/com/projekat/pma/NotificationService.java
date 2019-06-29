@@ -52,7 +52,7 @@ public class NotificationService extends JobService {
             @Override
             public void run() {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.1.10:9001/pma/news/";
+                String url = "http://192.168.43.30:9001/pma/news/";
                 if (Settings.Secure.getInt(getApplicationContext().getContentResolver()
                         ,Settings.Secure.LOCATION_MODE, Settings.Secure.LOCATION_MODE_OFF) != Settings.Secure.LOCATION_MODE_OFF) {
 

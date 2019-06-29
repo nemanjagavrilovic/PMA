@@ -54,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("settings", 0); // 0 - for private mode
+
+        setTheme(pref.getInt("theme",R.style.AppTheme_GREEN));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-
-        System.out.println("Lokacijaa "+locationManager.isProviderEnabled(LOCATION_SERVICE));
         databaseHelper = new DatabaseHelper(this);
         dl = (DrawerLayout) findViewById(R.id.activity_main);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
@@ -83,29 +85,40 @@ public class MainActivity extends AppCompatActivity {
                         intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.putExtra("newsType", 3);
                         startActivity(intent);
+                        finish();
+
                         return true;
                     case R.id.settings:
                         intent = new Intent(MainActivity.this, Settings.class);
                         startActivity(intent);
+                        dl.closeDrawers();
                         return true;
                     case R.id.contact:
                         intent = new Intent(MainActivity.this, Contact.class);
                         startActivity(intent);
+                        dl.closeDrawers();
+
                         return true;
                     case R.id.eletricity_news:
                         intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.putExtra("newsType", 2);
                         startActivity(intent);
+                        finish();
+
                         return true;
                     case R.id.road_news:
                         intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.putExtra("newsType", 0);
                         startActivity(intent);
+                        finish();
+
                         return true;
                     case R.id.water_news:
                         intent = new Intent(MainActivity.this, MainActivity.class);
                         intent.putExtra("newsType", 1);
                         startActivity(intent);
+                        finish();
+
                         return true;
                     default:
                         return true;
@@ -248,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 //    @Override

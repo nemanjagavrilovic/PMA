@@ -151,9 +151,9 @@ public class MapFragment extends Fragment {
         final String date = getActivity().getIntent().getStringExtra("date");
 
         if(newsType == 3) {
-            url = "http://192.168.1.10:9001/pma/news/";
+            url = "http://192.168.43.30:9001/pma/news/";
         } else {
-            url = "http://192.168.1.10:9001/pma/news/restrictionType/"+newsType;
+            url = "http://192.168.43.30:9001/pma/news/restrictionType/"+newsType;
         }
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
