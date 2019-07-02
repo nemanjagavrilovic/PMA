@@ -110,8 +110,28 @@ public class NewsInfo extends AppCompatActivity {
                         startActivity(intent);
                         return true;
                     case R.id.contact:
-                        intent = new Intent(NewsInfo.this, MainActivity.class);
+                        intent = new Intent(NewsInfo.this, Contact.class);
                         startActivity(intent);
+                        return true;
+                    case R.id.eletricity_news:
+                        intent = new Intent(NewsInfo.this, MainActivity.class);
+                        intent.putExtra("newsType", 2);
+                        startActivity(intent);
+                        finish();
+
+                        return true;
+                    case R.id.road_news:
+                        intent = new Intent(NewsInfo.this, MainActivity.class);
+                        intent.putExtra("newsType", 0);
+                        startActivity(intent);
+                        finish();
+
+                        return true;
+                    case R.id.water_news:
+                        intent = new Intent(NewsInfo.this, MainActivity.class);
+                        intent.putExtra("newsType", 1);
+                        startActivity(intent);
+                        finish();
                         return true;
                     default:
                         return true;

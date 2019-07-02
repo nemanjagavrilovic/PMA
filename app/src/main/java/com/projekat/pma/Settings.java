@@ -54,7 +54,7 @@ public class Settings extends AppCompatActivity {
         radioGrid=findViewById(R.id.radioGrid);
         radioList=findViewById(R.id.radioList);
 
-        if(pref.getString("layout","").equals("list")) {
+        if(pref.getString("layout","list").equals("list")) {
             radioList.setChecked(true);
         } else {
             radioGrid.setChecked(true);
